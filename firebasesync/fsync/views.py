@@ -98,6 +98,10 @@ class StudentView(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateM
         return data
 
     def patch(self,request, id =None):
-        return self.partial_update(request,id)
+        data=self.partial_update(request, id)
+        print(data.data)
+        updatefirebase=db.child("Student").child(id).update(data.data)
+        print("patch response from firebase",updatefirebase)
+        return data
 
 
