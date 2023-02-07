@@ -60,23 +60,32 @@ class StudentView(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateM
 
 
     def get(self, request, id=None):
-
         if id:
+            fetchResponse=db.child("Student").child(id).get()
+            data=fetchResponse.val()
+            jdata=json.dumps(data)
+            print("data from Firebase using id",id)
+            print(jdata,type(jdata))
             return self.retrieve(request, id)
         else:
             fetchResponse=db.child("Student").get()
             data=fetchResponse.val()
             jdata=json.dumps(data)
+            print("data from Firebase using all")
             print(jdata,type(jdata))
             return self.list(request)
 
     def delete(self, request, id=None):
+        responsefirebase=db.child("Student").child(id).remove()
+        print("Record Deleted in firebase",responsefirebase)
         return self.destroy(request, id)
 
     def post(self, request):
         data= self.create(request)
-        firebaseRepsonse=json.dumps(db.child("Student").push(data.data))
-        print(firebaseRepsonse)
+        id=data.data['id']
+        #firebaseRepsonse=json.dumps(db.child("Student").child(id).push(data.data))
+        firebaseRepsonse=json.dumps(db.child("Student").child(id).set(data.data))
+        print("Record Created from firebase",firebaseRepsonse)
 
         return Response({"data":data.data,})
 
