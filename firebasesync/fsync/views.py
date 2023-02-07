@@ -65,7 +65,9 @@ class StudentView(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateM
             return self.retrieve(request, id)
         else:
             fetchResponse=db.child("Student").get()
-            print(fetchResponse.val())
+            data=fetchResponse.val()
+            jdata=json.dumps(data)
+            print(jdata,type(jdata))
             return self.list(request)
 
     def delete(self, request, id=None):
@@ -80,6 +82,7 @@ class StudentView(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateM
 
 
     def put(self, request, id=None):
+        
         return self.update(request, id)
 
     def patch(self,request, id =None):
