@@ -18,7 +18,7 @@ from rest_framework.authentication import TokenAuthentication
 import json
 import pyrebase
 
-
+""" firebase config"""
 config = {
   "apiKey": "AIzaSyBsKZp6f3oJoqkBKVd2X15reohrfQrbsss",
   "authDomain": "fir-sync-a3379.firebaseapp.com",
@@ -30,7 +30,7 @@ config = {
   "measurementId": "G-8TSYGWRE3G"
 }
 
-
+"""Connection to firebase"""
 firebase = pyrebase.initialize_app(config)
 db = firebase.database()
 
