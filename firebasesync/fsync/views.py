@@ -17,6 +17,17 @@ from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication
 import json
 import pyrebase
+from .fire import fire
+
+""" send to firebase""" 
+
+import firebase_admin
+from firebase_admin import credentials
+
+# cred = credentials.Certificate("./fir-sync-a3379-firebase-adminsdk-m10u0-ce74ad8e70.json")
+# firebase_admin.initialize_app(cred)
+# db = firestore.client()
+
 
 
 config = {
@@ -85,8 +96,10 @@ class StudentView(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateM
         id=data.data['id']
         #firebaseRepsonse=json.dumps(db.child("Student").child(id).push(data.data))
         firebaseRepsonse=json.dumps(db.child("Student").child(id).set(data.data))
+        #frdbb=db.collection('Student').document(id).create(data.data)
+        #print(frdbb)
         print("Record Created from firebase",firebaseRepsonse)
-
+        fire()
         return Response({"data":data.data,})
 
 
